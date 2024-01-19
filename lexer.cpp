@@ -16,7 +16,17 @@ enum TokenType {
     BinaryOpterator
 };
 
-// Classes      
+// Classes | Add specific classes for Error    
+class Error {
+    public:
+        string details;
+        string errorName;
+        Error(string det, string error) {
+            this -> details = det;
+            this -> errorName = error;
+        }
+};
+
 class Token {
     public: 
         string value;
@@ -39,8 +49,9 @@ bool isSkippable(string str) {
     return str == " " || str == "\n" || str == "\t";
 }
 
-vector<Token> Tokenize(string source) {
+pair<vector<Token>, vector<Error>> Tokenize(string source) {
     vector<Token> tokens;
+    vector<Error> errors;
     // Tokenize source code to token
     for (int idx = 0; idx < source.size(); idx ++) {
         if (source[idx] == '(') tokens.push_back(Token(source[idx], OpenParen));
@@ -75,5 +86,5 @@ vector<Token> Tokenize(string source) {
         }
     }
 
-    return tokens;
+    return pair(tokens, errors);
 };
