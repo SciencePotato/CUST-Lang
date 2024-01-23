@@ -1,16 +1,25 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <lexer.cpp>
+#include "lexer.cpp"
 
 using namespace std;
 
 int main() {
     ifstream inputFile ("testFiles/basicTest.txt");
-    string line;
+
+    // Reading File Source
+    string src, line;
     while (getline(inputFile, line)) {
-        std::cout << line << '\n';
+        src += line + "\n";
     }
-    std::cout << "Testing";
+
+    // Tokenize and Print information
+    pair<vector<Token>, vector<Error>> res = Tokenize(src);
+    for (Token t: res.first) {
+        t.print();
+    }
+
+    std::cout << src;
     return 0;
 };

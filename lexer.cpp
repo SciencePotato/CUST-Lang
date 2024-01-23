@@ -3,9 +3,6 @@
 
 using namespace std;
 
-// Static variables 
-static map<string, TokenType> typeMap {{"let", Let}};
-
 enum TokenType {
     Number,
     Identifier,
@@ -15,6 +12,10 @@ enum TokenType {
     CloseParen,
     BinaryOpterator
 };
+
+static const char* enumString[] = {"Number", "Identifier", "Equals", "Let", "OpenParen", "CloseParen", "BinaryOperator"};
+// Static variables
+static map<string, TokenType> typeMap {{"let", Let}};
 
 // Classes | Add specific classes for Error    
 class Error {
@@ -44,6 +45,10 @@ class Token {
         };
 
         Token() = default;
+
+        void print() {
+            cout << "{" + value + ":" + enumString[token] + "}\n";
+        }
 };
 
 bool isSkippable(string str) {
