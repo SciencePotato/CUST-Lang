@@ -24,6 +24,7 @@ class Error {
         Error(string det, string error) {
             this -> details = det;
             this -> errorName = error;
+            cout << error + " : " + det + "\n";
         }
 };
 
@@ -80,8 +81,7 @@ pair<vector<Token>, vector<Error>> Tokenize(string source) {
                 // don't really have to do anything here
                 continue;
             } else {
-                cout << "Error";
-                exit(0);
+                errors.push_back(Error("", ""));
             }
         }
     }
