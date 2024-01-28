@@ -11,10 +11,11 @@ enum TokenType {
     Let,
     OpenParen, 
     CloseParen,
-    BinaryOpterator
+    BinaryOpterator,
+    Eof,
 };
 
-static const char* enumString[] = {"Number", "Identifier", "Equals", "Let", "OpenParen", "CloseParen", "BinaryOperator"};
+static const char* enumString[] = {"Number", "Identifier", "Equals", "Let", "OpenParen", "CloseParen", "BinaryOperator", "EOF"};
 // Static variables
 static map<string, TokenType> typeMap {{"let", Let}};
 
@@ -87,10 +88,12 @@ pair<vector<Token>, vector<Error>> Tokenize(string source) {
                 // don't really have to do anything here
                 continue;
             } else {
+                // Error checking invalidate syntax or something
                 errors.push_back(Error("", ""));
             }
         }
     }
 
+    tokens.push_back(Token("End of File", Eof));
     return pair(tokens, errors);
 };
