@@ -22,10 +22,13 @@ public:
     std::vector<Stmt> body;
 };
 
-class Identifier: public Expr {
+class IdentifierExpr: public Expr {
 public:
     NodeType kind = identifier;
     std::string symbol;
+    IdentifierExpr(std::string symb) {
+        this -> symbol = symb;
+    }
 };
 
 class NumericLiteral: public Expr {
