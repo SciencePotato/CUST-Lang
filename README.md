@@ -6,7 +6,8 @@ What is a programming language? Well, it should just be a program
 that executes and does magical stuff. To understand it a bit more
 I decide to try to write a language interpreter. This project, I'll write a super basic language.
 
-### Lexical Anaylzer | Lexer
+### Tokens, Errors, Lexer
+Tokens are the fundamental building blocks. You can think of Token as a character in a word. Tokens combines together to make Statement / Expression, which I would explain later.
 
 ### Parser
 
