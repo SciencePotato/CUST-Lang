@@ -1,5 +1,4 @@
 #include <iostream>
-#include "ast.cpp"
 #include "lexer.cpp"
 
 class Parser {
@@ -11,45 +10,61 @@ public:
         Program *program = new Program();
 
         // Parsing Until end of file
-        while (notEof) {
-            program -> body.push_back(this -> parseStmt());
+        while (notEof()) {
+            Stmt *current = this -> parseStmt();
+            if (current != nullptr) {
+                program -> body.push_back(*current);
+            }
         }
 
         return *program;
     }
+
 private:
     std::pair<std::vector<Token>, std::vector<Error>> result = {};
     std::vector<Token> tokens = {};
     std::vector<Error> errors = {};
 
-    bool notEof(Token token) {
-        return token.token != Eof;
+    Token eat() {
+        Token prev = *at();
+        tokens.erase(tokens.begin());
+        return prev;
     }
 
-    Token at(int i) {
-        return this -> tokens[i];
+    bool notEof() {
+        Token* res = at();
+        if (res == nullptr) return true;
+        return (*(this -> at())).token != Eof;
     }
 
-    Stmt parseStmt() {
+    Token* at() {
+        if (tokens.empty()) return nullptr;
+        return &(tokens[0]);
+    }
+
+    Stmt* parseStmt() {
         // Parsing Statements
         return this -> parseExpr();
     }
 
-    Expr parseExpr() {
+    Expr* parseExpr() {
         return this -> parsePrimaryExpr();
     }
 
 
-    Expr parsePrimaryExpr() {
-        Token token = at(0);
+    Expr* parsePrimaryExpr() {
+        Token token = eat();
         TokenType tk = token.token;
-
         switch(tk) {
             case Identifier:
-                return IdentifierExpr(token.value);
+                return new IdentifierExpr(token.value);
+            case Numbers:
+                return new NumericLiteral(std::stof(token.value));
             default:
-                this -> errors.push_back(Error("Wrong Identifier", "ParsePrimaryExpr Failure"));
+                token.print();
+                break;
         };
+        return nullptr;
     }
 
 };

@@ -5,17 +5,23 @@
 using namespace std;
 
 enum TokenType {
-    Number,
+    Numbers,
     Identifier,
     Equals,
     Let,
     OpenParen, 
     CloseParen,
-    BinaryOpterator,
+    BinaryOperator,
     Eof,
 };
 
-static const char* enumString[] = {"Number", "Identifier", "Equals", "Let", "OpenParen", "CloseParen", "BinaryOperator", "EOF"};
+enum ErrorType {
+    IllegalCharError,
+    InvalidSyntaxError
+};
+
+static const char* enumTokenString[] = {"Numbers", "Identifier", "Equals", "Let", "OpenParen", "CloseParen", "BinaryOperator", "EOF"};
+static const char* enumErrorString[] = {"IllegalCharError", "InvalidSyntaxError"};
 // Static variables
 static map<string, TokenType> typeMap {{"let", Let}};
 
@@ -49,7 +55,7 @@ class Token {
         Token() = default;
 
         void print() {
-            cout << "{" + value + ":" + enumString[token] + "}\n";
+            cout << "{" + value + ":" + enumTokenString[token] + "}\n";
         }
 };
 
@@ -64,7 +70,7 @@ pair<vector<Token>, vector<Error>> Tokenize(string source) {
     for (int idx = 0; idx < source.size(); idx ++) {
         if (source[idx] == '(') tokens.push_back(Token(source[idx], OpenParen));
         else if (source[idx] == ')') tokens.push_back(Token(source[idx], CloseParen));
-        else if (source[idx] == '*' || source[idx] == '/' || source[idx] == '+' || source[idx] == '-') tokens.push_back(Token(source[idx], BinaryOpterator));
+        else if (source[idx] == '*' || source[idx] == '/' || source[idx] == '+' || source[idx] == '-') tokens.push_back(Token(source[idx], BinaryOperator));
         else if (source[idx] == '=') tokens.push_back(Token(source[idx], Equals));
         else {
             // multi character tokens
@@ -73,7 +79,7 @@ pair<vector<Token>, vector<Error>> Tokenize(string source) {
                 while (idx < source.size() && isdigit(source[idx])) {
                     val += source[idx++];
                 }
-                tokens.push_back(Token(val, Number));
+                tokens.push_back(Token(val, Numbers));
             } else if (isalpha(source[idx])) {
                 while (idx < source.size() && isalnum(source[idx])) {
                     val += source[idx++];

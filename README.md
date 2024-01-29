@@ -9,3 +9,6 @@
 ### Abstract Syntax Tree
 
 ## What's the purpose of making this?
+
+## TODO
+Reorganize and create Header functions
