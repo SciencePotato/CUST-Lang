@@ -16,8 +16,8 @@ enum TokenType {
 };
 
 enum ErrorType {
-    IllegalCharError,
-    InvalidSyntaxError
+    EillegalCharError,
+    EinvalidSyntaxError
 };
 
 static const char* enumTokenString[] = {"Numbers", "Identifier", "Equals", "Let", "OpenParen", "CloseParen", "BinaryOperator", "EOF"};
@@ -26,15 +26,30 @@ static const char* enumErrorString[] = {"IllegalCharError", "InvalidSyntaxError"
 static map<string, TokenType> typeMap {{"let", Let}};
 
 // Classes | Add specific classes for Error    
-class Error {
+struct Error {
     public:
-        string details;
-        string errorName;
-        Error(string det, string error) {
-            this -> details = det;
-            this -> errorName = error;
-            cout << error + " : " + det + "\n";
+        string detail;
+        ErrorType err;
+        void print() {
+            cout << "{" + detail + " : " + enumErrorString[err] + "}\n";
         }
+};
+
+class IllegalCharError: public Error {
+    public:
+    IllegalCharError(string detail) {
+        this -> err = EillegalCharError;
+        this -> detail = detail;
+    }
+};
+
+class InvalidSyntaxError: public Error {
+    public:
+    InvalidSyntaxError(string detail) {
+        this -> err = EinvalidSyntaxError;
+        this -> detail = detail;
+    }
+
 };
 
 class Token {
@@ -60,7 +75,7 @@ class Token {
 };
 
 bool isSkippable(string str) {
-    return str == " " || str == "\n" || str == "\t";
+    return str == "" || str == " " || str == "\n" || str == "\t";
 }
 
 pair<vector<Token>, vector<Error>> Tokenize(string source) {
@@ -94,8 +109,10 @@ pair<vector<Token>, vector<Error>> Tokenize(string source) {
                 // don't really have to do anything here
                 continue;
             } else {
-                // Error checking invalidate syntax or something
-                errors.push_back(Error("", ""));
+                // Error checking invalidate syntaxcre
+                string s = "Illegal Character: ";
+                s += source[idx];
+                errors.push_back(IllegalCharError(s));
             }
         }
     }
@@ -103,3 +120,19 @@ pair<vector<Token>, vector<Error>> Tokenize(string source) {
     tokens.push_back(Token("End of File", Eof));
     return pair(tokens, errors);
 };
+
+void print(vector<Token> toks) {
+    cout << "##########################################\n";
+    for (Token t: toks) {
+        t.print();
+    }
+    cout << "##########################################\n";
+}
+
+void print(vector<Error> errs) {
+    cout << "##########################################\n";
+    for (Error er: errs) {
+        er.print();
+    }
+    cout << "##########################################\n";
+}
