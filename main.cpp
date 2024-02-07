@@ -20,6 +20,7 @@ int main() {
     //     t.print();
     // }
     Program program = Parser().produceAST(src);
+    program.print();
 
     // std::cout << src;
     return 0;
