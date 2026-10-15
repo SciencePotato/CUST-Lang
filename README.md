@@ -1,13 +1,12 @@
 # CUST-Lang
 
-## How does a Language Interpreter work?
+## How does a language interpreter work?
 
-What is a programming language? Well, it should just be a program
-that executes and does magical stuff. To understand it a bit more
-I decide to try to write a language interpreter. This project, I'll write a super basic language.
+To learn how programming languages work, I decided to try writing
+an interpreter for a very basic language.
 
 ### Tokens, Errors, Lexer
-Tokens are the fundamental building blocks. You can think of Token as a character in a word. Tokens combines together to make Statement / Expression, which I would explain later.
+Tokens are the fundamental building blocks of a language. They combine to form statements and expressions, which I'll explain later.
 
 ### Parser
 
@@ -15,12 +14,12 @@ Tokens are the fundamental building blocks. You can think of Token as a characte
 
 ## What's the purpose of making this?
 
-Honestly, I don't think it's just a good learning lessons. It's like learning the composition of a language, how it works together and why it works together. Besides, it's a cool project.
+I want to understand the parts of a language, how they fit together, and why they work. Besides, it's a cool project.
 
 ## Credits (Resources)
 
 ## TODO
 
-1. Extract Classes to own file
-2. Utility Function creation
-3. Reorganize and create Header functions
+1. Move classes into their own files
+2. Create utility functions
+3. Reorganize and create header functions
