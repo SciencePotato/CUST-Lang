@@ -12,6 +12,7 @@ static const char *enumString[] = {"Program", "NumericLiteral", "Identifier", "B
 
 struct  Stmt {
 public:
+    virtual ~Stmt() = default;
     NodeType kind;
     float value;
     std::string symbol;
