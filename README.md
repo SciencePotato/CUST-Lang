@@ -9,10 +9,23 @@ mkdir -p build
 c++ -std=c++17 main.cpp -o build/cust
 c++ -std=c++17 tests/ownership.cpp -o build/ownership-test
 ./build/ownership-test
+c++ -std=c++17 -fno-elide-constructors tests/ownership.cpp -o build/ownership-no-elide
+./build/ownership-no-elide
 ```
 
 The focused test accounts for allocations during actual repeated parser calls
-and during a numeric-conversion exception; it is not a full interpreter test.
+and during a numeric-conversion exception. It also checks statement and Program
+copy/move construction and assignment, independent copied storage, and safe
+destruction after clearing moved-from objects. The second build disables
+optional return-value elision, including the named return in `produceAST`.
+
+The retained AST owns `vector<Stmt>` and `string` values, not owning raw
+pointers. Only parser-local intermediates use `unique_ptr<Stmt>`, and the
+virtual base destructor safely releases their dynamic types. `Stmt` rvalues
+may use the copy operations because its virtual destructor suppresses an
+implicit move constructor; that fallback still preserves value ownership.
+Ownership correctness does not depend on NRVO. These checks are not a sanitizer
+or full interpreter test.
 
 ## How does a Language Interpreter work?
 
