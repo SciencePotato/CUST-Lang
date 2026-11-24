@@ -1,5 +1,19 @@
 # CUST-Lang
 
+Parser temporaries are owned: returned programs retain copied statement data,
+while intermediate expressions are released on success or an exception.
+The incomplete grammar is unchanged.
+
+```sh
+mkdir -p build
+c++ -std=c++17 main.cpp -o build/cust
+c++ -std=c++17 tests/ownership.cpp -o build/ownership-test
+./build/ownership-test
+```
+
+The focused test accounts for allocations during actual repeated parser calls
+and during a numeric-conversion exception; it is not a full interpreter test.
+
 ## How does a Language Interpreter work?
 
 What is a programming language? Well, it should just be a program

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include "lexer.cpp"
 
 class Parser {
@@ -7,17 +8,17 @@ public:
         this -> result = Tokenize(src);
         this -> tokens = result.first;
         this -> errors = result.second;
-        Program *program = new Program();
+        Program program;
 
         // Parsing Until end of file
         while (notEof()) {
-            Stmt *current = this -> parseStmt();
+            std::unique_ptr<Stmt> current(this -> parseStmt());
             if (current != nullptr) {
-                program -> body.push_back(*current);
+                program.body.push_back(*current);
             }
         }
 
-        return *program;
+        return program;
     }
 
 private:
