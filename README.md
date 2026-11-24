@@ -1,5 +1,15 @@
 # CUST-Lang
 
+Identifier nodes initialize numeric storage because the current AST printer
+prints that field for every statement. Check the actual printer without
+depending on fresh heap contents:
+
+```sh
+mkdir -p build
+c++ -std=c++17 tests/identifier.cpp -o build/identifier-test
+./build/identifier-test
+```
+
 ## How does a Language Interpreter work?
 
 What is a programming language? Well, it should just be a program
