@@ -1,5 +1,24 @@
 # CUST-Lang
 
+## Build and check the front end
+
+Run from the repository root so the demo can find `testFiles/basicTest.txt`:
+
+```sh
+mkdir -p build
+c++ -std=c++17 main.cpp -o build/cust
+./build/cust
+c++ -std=c++17 tests/lexer.cpp -o build/lexer-test
+./build/lexer-test
+python3 tests/input.py build/cust
+```
+
+The lexer preserves operators adjacent to numbers/identifiers and returns
+illegal-character errors in the second member of `Tokenize`'s result pair.
+Whitespace, including CRLF, is skipped. An unreadable demo input file produces
+a diagnostic and a nonzero exit code, not a successful empty program.
+The parser is still a learning-stage implementation, not a complete grammar.
+
 ## How does a Language Interpreter work?
 
 What is a programming language? Well, it should just be a program
