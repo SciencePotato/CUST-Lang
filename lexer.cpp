@@ -90,13 +90,14 @@ pair<vector<Token>, vector<Error>> Tokenize(string source) {
         else {
             // multi character tokens
             string val = "";
-            if (isdigit(source[idx])) {
-                while (idx < source.size() && isdigit(source[idx])) {
+            if (isdigit(static_cast<unsigned char>(source[idx]))) {
+                while (idx < source.size() && isdigit(static_cast<unsigned char>(source[idx]))) {
                     val += source[idx++];
                 }
                 tokens.push_back(Token(val, Numbers));
-            } else if (isalpha(source[idx])) {
-                while (idx < source.size() && isalnum(source[idx])) {
+                --idx;
+            } else if (isalpha(static_cast<unsigned char>(source[idx]))) {
+                while (idx < source.size() && isalnum(static_cast<unsigned char>(source[idx]))) {
                     val += source[idx++];
                 }
                 // Check if keyword was reserved
@@ -105,7 +106,8 @@ pair<vector<Token>, vector<Error>> Tokenize(string source) {
                 } else {
                     tokens.push_back(Token(val, Identifier));
                 }
-            } else if (isSkippable(val)) {
+                --idx;
+            } else if (isSkippable(string(1, source[idx])) || source[idx] == '\r') {
                 // don't really have to do anything here
                 continue;
             } else {
